@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User_customer {
+  id             Int           @id @default(autoincrement())
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @default(now())
+  email          String        @unique
+  name           String
+  password       String?
+  avatar         String?
+  role           Role          @default(USER)
+  refresh_token  RefreshToken? @relation(fields: [refreshTokenId], references: [id])
+  refreshTokenId String?
+
+  @@index([id])
+  @@map("users_customer")
+}
+
+model User {
+  id            String        @id @default(uuid())
+  updatedAt     DateTime      @default(now())
+  createdAt     DateTime      @default(now())
+  email         String        @unique
+  name          String
+  password      String?
+  avatar        String?
+  refresh_token RefreshToken?
+  resale        Resale[]
+  product       Product[]
+  client        Client[]
+  role          Role          @default(RESELLER)
+
+  @@index([id])
+  @@map("users")
+}
+
+model RefreshToken {
+  id            String          @id @default(uuid())
+  token         String          @default(uuid())
+  user          User            @relation(fields: [userId], references: [id])
+  userId        String          @unique
+  User_customer User_customer[]
+
+  @@index([id])
+  @@map("refresh_token")
+}
+
+model Client {
+  id       String   @id @default(uuid())
+  nome     String
+  telefone String
+  resale   Resale[]
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String
+
+  @@index([id])
+  @@map("client")
+}
+
+model Category {
+  id      String    @id @default(uuid())
+  nome    String
+  product Product[]
+
+  @@index([id])
+  @@map("category")
+}
+
+model Product {
+  id          String        @id @default(uuid())
+  nome        String
+  descricao   String
+  markup      String
+  cost_price  Decimal
+  price       Decimal
+  estoque     Int
+  minEstoque  Int
+  user        User          @relation(fields: [userId], references: [id])
+  userId      String
+  category_id String
+  category    Category      @relation(fields: [category_id], references: [id])
+  resale      ResaleItens[]
+
+  @@index([id])
+  @@map("product")
+}
+
+model Installments {
+  id              String  @id @default(uuid())
+  resale_itens    Resale  @relation(fields: [resale_itens_id], references: [id])
+  resale_itens_id String
+  payment_date    String
+  payment_value   Decimal
+  is_paid         Boolean @default(false)
+
+  @@index([id])
+}
+
+model ResaleItens {
+  quantity   Int
+  product_id String
+  product    Product @relation(fields: [product_id], references: [id])
+  resale_id  String
+  resale     Resale  @relation(fields: [resale_id], references: [id])
+
+  @@id([product_id, resale_id])
+  @@index([product_id])
+  @@map("resale_itens")
+}
+
+model Resale {
+  id           String         @id @default(uuid())
+  data         DateTime       @default(now())
+  cliente      Client         @relation(fields: [client_id], references: [id])
+  client_id    String
+  user         User           @relation(fields: [userId], references: [id])
+  userId       String
+  installments Installments[]
+  is_canceled  Boolean        @default(false)
+  totalValue   Decimal
+  products     ResaleItens[]
+
+  @@index([id])
+  @@map("resale")
+}
+
+enum Role {
+  USER
+  ADMIN
+  RESELLER
+}

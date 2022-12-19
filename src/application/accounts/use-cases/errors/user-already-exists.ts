@@ -1,7 +1,7 @@
+import { BadRequestException } from "@nestjs/common";
 
-
-export class UserAlreadyExists extends Error {
+export class UserAlreadyExists extends BadRequestException {
     constructor() {
-        super("este Email já foi cadastrado")
+        super("Este endereço de email já foi cadastrado")
     }
 }

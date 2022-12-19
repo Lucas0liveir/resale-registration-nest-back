@@ -1,6 +1,6 @@
 import { User } from "@application/accounts/entities/User";
 import { AccountRepository } from "@application/accounts/repositories/account-repository";
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { PrismaAccountMapper } from "../mappers/prisma-account-mapper";
 import { PrismaService } from "../prisma.service";
 
@@ -11,6 +11,40 @@ export class PrismaAccountRepository implements AccountRepository {
         private prisma: PrismaService
     ) { }
 
+    async createRefreshToken(userId: string, token: string) {
+        await this.prisma.refreshToken.create({
+            data: {
+                token,
+                userId
+            }
+        })
+    }
+
+    async findRefreshTokenByUserId(userId: string): Promise<string> {
+
+        const refreshToken = await this.prisma.refreshToken.findFirst({
+            where: {
+                userId: userId
+            }
+        })
+
+        return refreshToken.token
+    }
+
+    async updateRefreshToken(userId: string, token: string) {
+        console.log(userId);
+
+        await this.prisma.refreshToken.update({
+            where: {
+                userId
+            },
+            data: {
+                token
+            }
+
+        })
+    }
+
     async createReseller(user: User) {
         const raw = PrismaAccountMapper.toPrisma(user)
 
@@ -18,6 +52,7 @@ export class PrismaAccountRepository implements AccountRepository {
             data: raw
         })
     }
+
 
     create(user: User): void {
         throw new Error("Method not implemented.");

@@ -1,7 +1,7 @@
-import { BadRequestException } from "@nestjs/common"
-import { makeUser } from "@test/factories/user-factory"
-import { InMemoryAccountRepository } from "@test/repositories/in-memory-account-repository"
-import { CreateResellerAccount } from "./create-reseller-account"
+import { makeUser } from "@test/factories/user-factory";
+import { InMemoryAccountRepository } from "@test/repositories/in-memory-account-repository";
+import { CreateResellerAccount } from "./create-reseller-account";
+import { UserAlreadyExists } from "./errors/user-already-exists";
 
 describe("Create Account", () => {
     it("Should be able to create a reseller user account", async () => {
@@ -46,6 +46,6 @@ describe("Create Account", () => {
                 password: newUser.password,
                 role: "RESELLER"
             })
-        }).rejects.toThrowError(BadRequestException)
+        }).rejects.toThrowError(UserAlreadyExists)
     })
 })

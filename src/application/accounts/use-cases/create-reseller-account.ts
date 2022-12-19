@@ -1,7 +1,8 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { User } from "../entities/User";
 import * as bcrypt from 'bcrypt';
 import { AccountRepository } from "../repositories/account-repository";
+import { UserAlreadyExists } from "./errors/user-already-exists";
 
 interface AccountRequest {
     name: string;
@@ -27,7 +28,7 @@ export class CreateResellerAccount {
         const userExists = await this.accountRepository.findByEmail(email)
 
         if (userExists) {
-            throw new BadRequestException("Este endereço de email já foi cadastrado")
+            throw new UserAlreadyExists()
         }
 
         const user = new User({

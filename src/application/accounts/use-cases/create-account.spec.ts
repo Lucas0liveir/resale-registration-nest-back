@@ -1,4 +1,4 @@
-import { NotFoundException } from "@nestjs/common"
+import { BadRequestException } from "@nestjs/common"
 import { makeUser } from "@test/factories/user-factory"
 import { InMemoryAccountRepository } from "@test/repositories/in-memory-account-repository"
 import { CreateResellerAccount } from "./create-reseller-account"
@@ -46,6 +46,6 @@ describe("Create Account", () => {
                 password: newUser.password,
                 role: "RESELLER"
             })
-        }).rejects.toThrowError(NotFoundException)
+        }).rejects.toThrowError(BadRequestException)
     })
 })

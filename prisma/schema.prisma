@@ -69,7 +69,7 @@ model Customer {
   @@map("customer")
 }
 
-model Category {
+model Product_Category {
   id        String    @id @default(uuid())
   name      String
   product   Product[]
@@ -77,7 +77,7 @@ model Category {
   updatedAt DateTime  @default(now())
 
   @@index([id])
-  @@map("category")
+  @@map("product_category")
 }
 
 model Product {
@@ -92,7 +92,7 @@ model Product {
   user        User          @relation(fields: [userId], references: [id])
   userId      String
   category_id String
-  category    Category      @relation(fields: [category_id], references: [id])
+  category    Product_Category      @relation(fields: [category_id], references: [id])
   resale      ResaleItens[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @default(now())

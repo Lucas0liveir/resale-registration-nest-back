@@ -1,4 +1,3 @@
-import { RefreshToken } from "@prisma/client";
 import { User } from "../entities/User";
 
 export abstract class AccountRepository {

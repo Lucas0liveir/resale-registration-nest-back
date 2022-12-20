@@ -3,6 +3,16 @@ import { AccountRepository } from "@application/accounts/repositories/account-re
 
 
 export class InMemoryAccountRepository extends AccountRepository {
+    
+    createRefreshToken(userId: string, token: string): void {
+        throw new Error("Method not implemented.");
+    }
+    updateRefreshToken(userId: string, token: string): void {
+        throw new Error("Method not implemented.");
+    }
+    findRefreshTokenByUserId(userId: string): Promise<string> {
+        throw new Error("Method not implemented.");
+    }
 
     public user: User[] = []
 

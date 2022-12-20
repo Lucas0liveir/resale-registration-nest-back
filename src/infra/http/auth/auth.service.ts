@@ -1,7 +1,7 @@
 import { AccountRepository } from '@application/accounts/repositories/account-repository';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AccoutViewModel } from "../view-models/account-view-model";
+import { AccoutViewModel } from "../view-models/account/account-view-model";
 import * as bcrypt from "bcrypt";
 import { User } from '@application/accounts/entities/User';
 import { ConfigService } from '@nestjs/config';
@@ -85,7 +85,7 @@ export class AuthService {
                 },
                 {
                     secret: this.configService.get<string>('JWT_SECRET'),
-                    expiresIn: '1m',
+                    expiresIn: '20m',
                 },
             ),
             this.jwtService.signAsync(

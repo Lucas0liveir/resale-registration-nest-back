@@ -1,8 +1,8 @@
 import { User } from "@application/accounts/entities/User";
 import { AccountRepository } from "@application/accounts/repositories/account-repository";
 import { Injectable } from "@nestjs/common";
-import { PrismaAccountMapper } from "../mappers/prisma-account-mapper";
-import { PrismaService } from "../prisma.service";
+import { PrismaAccountMapper } from "../../mappers/account/prisma-account-mapper";
+import { PrismaService } from "../../prisma.service";
 
 @Injectable()
 export class PrismaAccountRepository implements AccountRepository {
@@ -32,7 +32,6 @@ export class PrismaAccountRepository implements AccountRepository {
     }
 
     async updateRefreshToken(userId: string, token: string) {
-        console.log(userId);
 
         await this.prisma.refreshToken.update({
             where: {

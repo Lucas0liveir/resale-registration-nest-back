@@ -1,8 +1,7 @@
 import { CreateResellerAccount } from "@application/accounts/use-cases/create-reseller-account";
 import { Body, Controller, Post } from "@nestjs/common";
-import { CreateAccountBody } from "../dtos/create-account-reseller-body";
-import { AccoutViewModel } from "../view-models/account-view-model";
-
+import { CreateAccountBody } from "../dtos/account/create-account-reseller-body";
+import { AccoutViewModel } from "../view-models/account/account-view-model";
 
 @Controller('accounts')
 export class AccountsController {

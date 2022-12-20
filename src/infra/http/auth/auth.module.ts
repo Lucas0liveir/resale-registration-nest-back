@@ -6,7 +6,7 @@ import { DataBaseModule } from '@infra/database/database.module';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategys/jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
-import { RefreshTokenStrategy } from './strategys/refreshToken.strategy';
+import { RefreshTokenStrategy } from './strategys/refresh-token.strategy';
 
 @Module({
   imports: [

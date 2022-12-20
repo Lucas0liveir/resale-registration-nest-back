@@ -1,4 +1,4 @@
-import { makeUser } from "@test/factories/user-factory";
+import { makeUser } from "@test/factories/account/user-factory";
 import { InMemoryAccountRepository } from "@test/repositories/accounts/in-memory-account-repository";
 import { CreateResellerAccount } from "./create-reseller-account";
 import { UserAlreadyExists } from "./errors/user-already-exists";

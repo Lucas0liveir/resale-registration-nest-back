@@ -1,8 +1,7 @@
 import { LocalAuthGuard } from '@infra/http/auth/guards/local-auth.guard';
 import { Controller, Request, Post, UseGuards, Get, Req } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
-
-import { RefreshTokenGuard } from '../auth/guards/refreshToken.guard';
+import { RefreshTokenGuard } from '../auth/guards/refresh-token.guard';
 
 @Controller('accounts')
 export class AuthController {

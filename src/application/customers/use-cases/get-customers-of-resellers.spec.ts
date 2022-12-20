@@ -1,4 +1,4 @@
-import { makeCustomer } from "@test/factories/customer-factory";
+import { makeCustomer } from "@test/factories/customer/customer-factory";
 import { InMemoryCustomersRepository } from "@test/repositories/customers/in-memory-customers";
 import { GetCustomersOfResellers } from "./get-customers-of-resellers";
 

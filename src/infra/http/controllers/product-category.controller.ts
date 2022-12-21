@@ -6,7 +6,7 @@ import { GetProductCategories } from "@application/products-categories/use-cases
 import { UpdateProductCategory } from "@application/products-categories/use-cases/update-product-category";
 import { CreateProductCategoryBody } from "../dtos/product-category/create-product-category-body";
 import { ProductCategoryViewModel } from "../view-models/product-category/product-category-view-model";
-import { UpdateProductCategoryBody } from "../dtos/product-category/update-product-category";
+import { UpdateProductCategoryBody } from "../dtos/product-category/update-product-category-body";
 import { ProductCategory } from "@application/products-categories/entities/product-category";
 
 @Controller("reseller")

@@ -31,6 +31,8 @@ export class InMemoryProductCategoriesRepository extends ProductCategoryReposito
 
         if (productCategoryIndex >= 0) {
             this.categories.splice(productCategoryIndex, 1)
+        } else {
+            throw new BadRequestException("Categoria não existe")
         }
     }
 

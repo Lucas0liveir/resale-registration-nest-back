@@ -1,5 +1,6 @@
 import { ProductCategory } from "@application/products-categories/entities/product-category";
 import { ProductCategoryRepository } from "@application/products-categories/repositories/product-category-repository";
+import { BadRequestException } from "@nestjs/common";
 
 export class InMemoryProductCategoriesRepository extends ProductCategoryRepository {
 
@@ -19,6 +20,8 @@ export class InMemoryProductCategoriesRepository extends ProductCategoryReposito
 
         if (productCategoryIndex >= 0) {
             this.categories[productCategoryIndex] = productCategory
+        } else {
+            throw new BadRequestException("Categoria não existe")
         }
 
     }

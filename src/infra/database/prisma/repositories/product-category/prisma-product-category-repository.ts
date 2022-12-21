@@ -1,6 +1,6 @@
 import { ProductCategory } from "@application/products-categories/entities/product-category";
 import { ProductCategoryRepository } from "@application/products-categories/repositories/product-category-repository";
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaProductCategoryMapper } from "../../mappers/product-category/prisma-product-category.mapper";
 import { PrismaService } from "../../prisma.service";
 
@@ -28,20 +28,30 @@ export class PrismaProductCategoryRepository implements ProductCategoryRepositor
     async save(productCategory: ProductCategory): Promise<void> {
         const raw = PrismaProductCategoryMapper.toPrisma(productCategory)
 
-        await this.prisma.product_Category.update({
-            where: {
-                id: raw.id
-            },
-            data: raw
-        })
+        try {
+            await this.prisma.product_Category.update({
+                where: {
+                    id: raw.id
+                },
+                data: raw
+            })
+        } catch (e) {
+            throw new BadRequestException("Categoria não encontrada")
+        }
     }
 
     async delete(id: string): Promise<void> {
-        await this.prisma.product_Category.delete({
-            where: {
-                id
-            }
-        })
+
+        try {
+            await this.prisma.product_Category.delete({
+                where: {
+                    id
+                }
+            })
+        } catch (e) {
+            throw new BadRequestException("Categoria não encontrada")
+        }
+
     }
 
 }

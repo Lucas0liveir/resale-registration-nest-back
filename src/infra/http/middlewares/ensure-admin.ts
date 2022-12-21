@@ -1,14 +1,25 @@
 import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { Response, NextFunction } from 'express';
 
 @Injectable()
 export class EnsureAdminMiddleware implements NestMiddleware {
     use(req, res: Response, next: NextFunction) {
+        try {
 
-        if (!req.user) throw new UnauthorizedException("Acesso negado.")
+            const [, token] = req.headers['authorization'].split(" ")
+            const jwtService = new JwtService()
 
-        if (req.user.role !== "ADMIN") throw new UnauthorizedException("Acesso negado.")
+            const payload = jwtService.verify(token, { secret: process.env.JWT_SECRET })
 
-        next();
+            if (!payload) throw new UnauthorizedException("Acesso negado.")
+
+            if (payload.role !== "ADMIN") throw new UnauthorizedException("Acesso negado.")
+
+            next();
+
+        } catch (e) {
+            throw new UnauthorizedException("Acesso negado")
+        }
     }
 }

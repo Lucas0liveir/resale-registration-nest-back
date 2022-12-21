@@ -8,25 +8,40 @@ import { GetCustomersOfResellers } from "@application/customers/use-cases/get-cu
 import { CreateCustomer } from "@application/customers/use-cases/create-customer";
 import { CustomerController } from "./controllers/customer.controller";
 import { EnsureAdminMiddleware } from "./middlewares/ensure-admin";
+import { DeleteProductCategory } from "@application/products-categories/use-cases/delete-product-category";
+import { CreatProductCategories } from "@application/products-categories/use-cases/create-product-categories";
+import { GetProductCategories } from "@application/products-categories/use-cases/get-product-categories";
+import { UpdateProductCategory } from "@application/products-categories/use-cases/update-product-category";
+import { ProductCategoryController } from "./controllers/product-category.controller";
 
 @Module({
     imports: [DataBaseModule, AuthModule],
     controllers: [
         AccountsController,
         AuthController,
-        CustomerController
+        CustomerController,
+        ProductCategoryController
     ],
     providers: [
         CreateResellerAccount,
         CreateCustomer,
-        GetCustomersOfResellers
+        GetCustomersOfResellers,
+        DeleteProductCategory,
+        CreatProductCategories,
+        GetProductCategories,
+        UpdateProductCategory
     ]
 })
+
 export class HttpModule implements NestModule {
 
     configure(consumer: MiddlewareConsumer) {
         consumer
             .apply(EnsureAdminMiddleware)
-            .forRoutes({ path: "reseller/products_categories", method: RequestMethod.POST })
+            .forRoutes(
+                { path: "reseller/products_categories", method: RequestMethod.POST },
+                { path: "reseller/products_categories/:id", method: RequestMethod.DELETE },
+                { path: "reseller/products_categories", method: RequestMethod.PUT }
+            )
     }
 }

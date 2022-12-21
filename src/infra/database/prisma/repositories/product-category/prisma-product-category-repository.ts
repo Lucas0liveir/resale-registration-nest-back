@@ -25,6 +25,16 @@ export class PrismaProductCategoryRepository implements ProductCategoryRepositor
         return categories.map(PrismaProductCategoryMapper.toDomain)
     }
 
+    async findById(id: string): Promise<ProductCategory> {
+        const productCategory = await this.prisma.product_Category.findUnique({
+            where: {
+                id
+            }
+        })
+
+        return PrismaProductCategoryMapper.toDomain(productCategory)
+    }
+
     async save(productCategory: ProductCategory): Promise<void> {
         const raw = PrismaProductCategoryMapper.toPrisma(productCategory)
 

@@ -13,6 +13,12 @@ import { CreatProductCategories } from "@application/products-categories/use-cas
 import { GetProductCategories } from "@application/products-categories/use-cases/get-product-categories";
 import { UpdateProductCategory } from "@application/products-categories/use-cases/update-product-category";
 import { ProductCategoryController } from "./controllers/product-category.controller";
+import { CreateProduct } from "@application/products/use-cases/create-product";
+import { DeleteUserProduct } from "@application/products/use-cases/delete-user-product";
+import { EditProduct } from "@application/products/use-cases/edit-product";
+import { GetUserProducts } from "@application/products/use-cases/get-user-products";
+import { GetProductCategory } from "@application/products-categories/use-cases/get-product-category";
+import { ProductController } from "./controllers/product.controller";
 
 @Module({
     imports: [DataBaseModule, AuthModule],
@@ -20,7 +26,8 @@ import { ProductCategoryController } from "./controllers/product-category.contro
         AccountsController,
         AuthController,
         CustomerController,
-        ProductCategoryController
+        ProductCategoryController,
+        ProductController
     ],
     providers: [
         CreateResellerAccount,
@@ -29,7 +36,12 @@ import { ProductCategoryController } from "./controllers/product-category.contro
         DeleteProductCategory,
         CreatProductCategories,
         GetProductCategories,
-        UpdateProductCategory
+        GetProductCategory,
+        UpdateProductCategory,
+        CreateProduct,
+        DeleteUserProduct,
+        EditProduct,
+        GetUserProducts
     ]
 })
 

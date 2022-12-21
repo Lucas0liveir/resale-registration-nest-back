@@ -55,8 +55,16 @@ export class Product {
         this.props.categoryId = categoryId;
     }
 
-    public get categoryId(): string {
+    public get categoryId() {
         return this.props.categoryId;
+    }
+
+    public get createdAt(): Date {
+        return this.props.createdAt;
+    }
+
+    public get updatedAt(): Date {
+        return this.props.updatedAt;
     }
 
 }

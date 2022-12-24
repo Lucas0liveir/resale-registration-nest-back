@@ -1,11 +1,12 @@
 import { CreateCustomer } from "@application/customers/use-cases/create-customer";
 import { GetCustomersOfResellers } from "@application/customers/use-cases/get-customers-of-resellers";
-import { Body, Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, CacheInterceptor, Controller, Get, Post, Req, UseGuards, UseInterceptors } from "@nestjs/common";
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateCustomerBody } from "../dtos/customer/create-customer-body";
 import { CustomerViewModel } from "../view-models/customer/customer-view-model";
 
 @Controller("reseller")
+@UseInterceptors(CacheInterceptor)
 export class CustomerController {
 
     constructor(

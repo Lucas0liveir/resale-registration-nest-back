@@ -1,5 +1,5 @@
-import { Brand } from "@application/sku-brand/entities/brand";
-import { BrandRepository } from "@application/sku-brand/repositories/brand-repository";
+import { Brand } from "@application/product-brand/entities/brand";
+import { BrandRepository } from "@application/product-brand/repositories/brand-repository";
 import { Injectable } from "@nestjs/common";
 import { PrismaBrandMapper } from "../../mappers/brand/prisma-brand.mapper";
 import { PrismaService } from "../../prisma.service";
@@ -38,6 +38,10 @@ export class PrismaBrandRepository implements BrandRepository {
                 id
             }
         })
+
+        if (!brand) {
+            return null
+        }
 
         return PrismaBrandMapper.toDomain(brand)
     }

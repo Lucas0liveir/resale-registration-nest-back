@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put, Req, UseGuards } from "@nestjs/common";
+import { Body, CacheInterceptor, Controller, Get, Post, Put, Req, UseGuards, UseInterceptors } from "@nestjs/common";
 import { CreateProduct } from "@application/products/use-cases/create-product";
 import { DeleteUserProduct } from "@application/products/use-cases/delete-user-product";
 import { EditProduct } from "@application/products/use-cases/edit-product";
@@ -9,6 +9,7 @@ import { ProductViewModel } from "../view-models/product/product-view-model";
 import { UpdateProductBody } from "../dtos/product/update-product-body";
 
 @Controller("reseller")
+@UseInterceptors(CacheInterceptor)
 export class ProductController {
 
     constructor(
@@ -21,11 +22,12 @@ export class ProductController {
     @UseGuards(JwtAuthGuard)
     @Post("product")
     async create(@Req() request, @Body() createProductBody: CreateProductBody) {
-        const { categoryId, description, name } = createProductBody
+        const { categoryId, brandId, description, name } = createProductBody
         const { userId } = request.user
 
         const { product } = await this.createProduct.execute({
             categoryId,
+            brandId,
             description,
             name,
             userId
@@ -37,12 +39,13 @@ export class ProductController {
     @UseGuards(JwtAuthGuard)
     @Put("product")
     async Edit(@Req() request, @Body() updateProductBody: UpdateProductBody) {
-        const { id, categoryId, description, name } = updateProductBody
+        const { id, categoryId, brandId, description, name } = updateProductBody
         const { userId } = request.user
 
         const { product } = await this.editProduct.execute({
             categoryId,
             description,
+            brandId,
             id,
             name,
             userId

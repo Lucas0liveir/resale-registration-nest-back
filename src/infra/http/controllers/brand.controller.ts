@@ -1,11 +1,12 @@
-import { CreateBrand } from "@application/sku-brand/use-cases/create-brand";
-import { GetBrandsOfResellers } from "@application/sku-brand/use-cases/get-customers-of-resellers";
-import { Body, Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
+import { CreateBrand } from "@application/product-brand/use-cases/create-brand";
+import { GetBrandsOfResellers } from "@application/product-brand/use-cases/get-customers-of-resellers";
+import { Body, CacheInterceptor, Controller, Get, Post, Req, UseGuards, UseInterceptors } from "@nestjs/common";
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateBrandBody } from "../dtos/brand/create-brand-body";
 import { BrandViewModel } from "../view-models/brand/brand-view-model";
 
 @Controller("reseller")
+@UseInterceptors(CacheInterceptor)
 export class BrandController {
 
     constructor(

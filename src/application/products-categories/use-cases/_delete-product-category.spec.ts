@@ -14,7 +14,7 @@ describe("Delete a product category", () => {
 
         productCategoryRepository.createMany([category, category2])
 
-        await deleteProductCategory.execute({ id: category.id })
+        await deleteProductCategory.execute({ id: category.id, userId: "user-1" })
 
         expect(productCategoryRepository.categories).toHaveLength(1)
         expect(productCategoryRepository.categories).not.toEqual(expect.arrayContaining([
@@ -27,7 +27,7 @@ describe("Delete a product category", () => {
         const deleteProductCategory = new DeleteProductCategory(productCategoryRepository)
 
         expect(async () => {
-            await deleteProductCategory.execute({ id: 'test-1' })
+            await deleteProductCategory.execute({ id: 'test-1', userId: "user-1" })
         }).rejects.toThrowError(BadRequestException)
     })
 })

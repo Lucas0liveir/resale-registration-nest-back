@@ -8,7 +8,7 @@ describe("Create product categories", () => {
 
         const names = ["teste1", "teste2", "teste3"]
 
-        await createProductCategory.execute({ names })
+        await createProductCategory.execute({ names, userId: "user-1" })
 
         expect(productCategpryRepository.categories).toHaveLength(3)
     })

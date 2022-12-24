@@ -3,11 +3,16 @@ import { ProductCategoryRepository } from "@application/products-categories/repo
 import { BadRequestException } from "@nestjs/common";
 
 export class InMemoryProductCategoriesRepository extends ProductCategoryRepository {
+    
 
     public categories: ProductCategory[] = []
 
     async createMany(productCategories: ProductCategory[]): Promise<void> {
         await this.categories.push(...productCategories)
+    }
+
+    async create(productCategory: ProductCategory): Promise<void> {
+        await this.categories.push(productCategory)
     }
 
     async findAll(): Promise<ProductCategory[]> {

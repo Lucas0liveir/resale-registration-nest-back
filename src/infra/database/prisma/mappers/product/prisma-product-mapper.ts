@@ -1,6 +1,7 @@
+import { Brand } from "@application/product-brand/entities/brand"
 import { ProductCategory } from "@application/products-categories/entities/product-category"
 import { Product } from "@application/products/entities/product"
-import { Product as RawProduct, Product_Category } from "@prisma/client"
+import { Product as RawProduct, Product_Category, Brand as PrismaBrand } from "@prisma/client"
 
 
 export class PrismaProductMapper {
@@ -11,6 +12,7 @@ export class PrismaProductMapper {
             name: product.name,
             userId: product.userId,
             description: product.description,
+            brand_id: product.brand.id,
             category_id: product.categoryId,
             createdAt: product.createdAt,
             updatedAt: product.updatedAt
@@ -18,11 +20,19 @@ export class PrismaProductMapper {
     }
 
     static toDomain(rawProduct: RawProduct & {
-        category: Product_Category;
+        category: Product_Category,
+        brand: PrismaBrand
     }) {
         return new Product({
             name: rawProduct.name,
+            brand: new Brand({
+                name: rawProduct.brand.name,
+                userId: rawProduct.brand.id,
+                createdAt: rawProduct.brand.createdAt,
+                updatedAt: rawProduct.brand.updatedAt
+            }, rawProduct.brand.id),
             category: new ProductCategory({
+                userId: rawProduct.userId,
                 name: rawProduct.category.name,
                 createdAt: rawProduct.category.createdAt,
                 updatedAt: rawProduct.category.updatedAt

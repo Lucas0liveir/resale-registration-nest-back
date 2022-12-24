@@ -11,6 +11,14 @@ export class PrismaProductCategoryRepository implements ProductCategoryRepositor
         private prisma: PrismaService
     ) { }
 
+    async create(productCategory: ProductCategory): Promise<void> {
+        const raw = PrismaProductCategoryMapper.toPrisma(productCategory)
+
+        await this.prisma.product_Category.create({
+            data: raw
+        })
+    }
+
     async createMany(productCategories: ProductCategory[]): Promise<void> {
         const raw = productCategories.map(PrismaProductCategoryMapper.toPrisma)
 
@@ -19,8 +27,12 @@ export class PrismaProductCategoryRepository implements ProductCategoryRepositor
         })
     }
 
-    async findAll(): Promise<ProductCategory[]> {
-        const categories = await this.prisma.product_Category.findMany()
+    async findAll(userId: string): Promise<ProductCategory[]> {
+        const categories = await this.prisma.product_Category.findMany({
+            where: {
+                userId
+            }
+        })
 
         return categories.map(PrismaProductCategoryMapper.toDomain)
     }
@@ -31,6 +43,10 @@ export class PrismaProductCategoryRepository implements ProductCategoryRepositor
                 id
             }
         })
+
+        if (!productCategory) {
+            return null
+        }
 
         return PrismaProductCategoryMapper.toDomain(productCategory)
     }
@@ -50,15 +66,29 @@ export class PrismaProductCategoryRepository implements ProductCategoryRepositor
         }
     }
 
-    async delete(id: string): Promise<void> {
+    async delete(id: string, userId: string): Promise<void> {
 
         try {
+            const productCategory = await this.prisma.product_Category.findUnique({
+                where: {
+                    id
+                }
+            })
+
+            if (productCategory.userId !== userId) {
+                throw new BadRequestException("Acesso negado.")
+            }
+
             await this.prisma.product_Category.delete({
                 where: {
                     id
                 }
             })
         } catch (e) {
+            if (e.code === "P2003") {
+                throw new BadRequestException("Não é possível excluir uma categoria que possuí produtos vinculados.")
+            }
+
             throw new BadRequestException("Categoria não encontrada")
         }
 

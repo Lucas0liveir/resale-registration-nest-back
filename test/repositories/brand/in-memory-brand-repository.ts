@@ -1,5 +1,5 @@
-import { Brand } from "@application/sku-brand/entities/brand"
-import { BrandRepository } from "@application/sku-brand/repositories/brand-repository"
+import { Brand } from "@application/product-brand/entities/brand"
+import { BrandRepository } from "@application/product-brand/repositories/brand-repository"
 
 
 export class InMemoryBrandRepository extends BrandRepository {

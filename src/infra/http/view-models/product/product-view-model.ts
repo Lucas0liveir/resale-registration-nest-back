@@ -8,6 +8,7 @@ export class ProductViewModel {
             name: product.name,
             description: product.description,
             categoryId: product.categoryId,
+            brandName: product.brand.name,
             categoryName: product.category.name
         }
     }

@@ -1,5 +1,5 @@
 import { Customer } from "@application/customers/entities/customer";
-import { Brand } from "@application/sku-brand/entities/brand";
+import { Brand } from "@application/product-brand/entities/brand";
 import { Brand as RawBrand } from "@prisma/client";
 
 export class PrismaBrandMapper {

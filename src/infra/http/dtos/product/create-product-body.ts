@@ -17,4 +17,9 @@ export class CreateProductBody {
     @IsString()
     @IsUUID()
     categoryId: string
+
+    @IsNotEmpty()
+    @IsString()
+    @IsUUID()
+    brandId: string
 }

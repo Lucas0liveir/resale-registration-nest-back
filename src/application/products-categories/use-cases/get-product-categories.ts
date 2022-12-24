@@ -2,6 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { ProductCategory } from "../entities/product-category";
 import { ProductCategoryRepository } from "../repositories/product-category-repository";
 
+interface GetProductCategoriesRequest {
+    userId: string;
+}
+
 interface GetProductCategoriesResponse {
     categories: ProductCategory[];
 }
@@ -13,8 +17,10 @@ export class GetProductCategories {
         private productCategoryRepository: ProductCategoryRepository
     ) { }
 
-    async execute(): Promise<GetProductCategoriesResponse> {
-        const categories = await this.productCategoryRepository.findAll()
+    async execute(request: GetProductCategoriesRequest): Promise<GetProductCategoriesResponse> {
+        const { userId } = request
+        
+        const categories = await this.productCategoryRepository.findAll(userId)
 
         return { categories }
     }

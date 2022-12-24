@@ -1,4 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { Brand } from "@application/product-brand/entities/brand";
+import { BrandRepository } from "@application/product-brand/repositories/brand-repository";
+import { ProductCategory } from "@application/products-categories/entities/product-category";
+import { ProductCategoryRepository } from "@application/products-categories/repositories/product-category-repository";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { Product } from "../entities/product";
 import { ProductRepository } from "../repositories/product-repository";
 
@@ -7,6 +11,7 @@ interface CreateProductRequest {
     description: string;
     userId: string;
     categoryId: string;
+    brandId: string;
 }
 
 interface CreateProductResponse {
@@ -17,14 +22,35 @@ interface CreateProductResponse {
 export class CreateProduct {
 
     constructor(
-        private productRepository: ProductRepository
+        private productCategoryRepository: ProductCategoryRepository,
+        private productRepository: ProductRepository,
+        private brandRepository: BrandRepository
     ) { }
 
     async execute(request: CreateProductRequest): Promise<CreateProductResponse> {
-        const { categoryId, description, name, userId } = request
+        const { categoryId, brandId, description, name, userId } = request
+
+        const category = await this.productCategoryRepository.findById(categoryId)
+        const brand = await this.brandRepository.findById(brandId, userId)
+
+        if (!category || !brand) {
+            throw new BadRequestException("Categoria ou marca inexistentes.")
+        }
 
         const product = new Product({
             name,
+            brand: new Brand({
+                name: brand.name,
+                userId,
+                createdAt: brand.createdAt,
+                updatedAt: brand.updatedAt
+            }, brand.id),
+            category: new ProductCategory({
+                name: category.name,
+                userId,
+                createdAt: category.createdAt,
+                updatedAt: category.createdAt
+            }, category.id),
             description,
             categoryId,
             userId

@@ -27,20 +27,21 @@ model User_customer {
 }
 
 model User {
-  id            String        @id @default(uuid())
-  updatedAt     DateTime      @default(now())
-  createdAt     DateTime      @default(now())
-  email         String        @unique
-  cnpj          String?
-  name          String
-  password      String?
-  avatar        String?
-  refresh_token RefreshToken?
-  resale        Resale[]
-  product       Product[]
-  customer      Customer[]
-  role          Role          @default(RESELLER)
-  Brand         Brand[]
+  id               String             @id @default(uuid())
+  updatedAt        DateTime           @default(now())
+  createdAt        DateTime           @default(now())
+  email            String             @unique
+  cnpj             String?
+  name             String
+  password         String?
+  avatar           String?
+  refresh_token    RefreshToken?
+  resale           Resale[]
+  product          Product[]
+  customer         Customer[]
+  role             Role               @default(RESELLER)
+  Brand            Brand[]
+  Product_Category Product_Category[]
 
   @@index([id])
   @@map("users")
@@ -74,11 +75,13 @@ model Customer {
 model Product_Category {
   id        String    @id @default(uuid())
   name      String
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String
   product   Product[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now())
 
-  @@index([id])
+  @@index([id, userId])
   @@map("product_category")
 }
 
@@ -90,8 +93,6 @@ model SKU {
   weight         Int?
   height         Int?
   width          Int?
-  brand_id       String
-  brand          Brand         @relation(fields: [brand_id], references: [id])
   product_id     String
   product        Product       @relation(fields: [product_id], references: [id])
   Pricing        Pricing?
@@ -101,20 +102,20 @@ model SKU {
   updatedAt      DateTime      @default(now())
   resaleItens    ResaleItens[]
 
-  @@index([id])
+  @@index([id, product_id])
   @@map("sku")
 }
 
 model Brand {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
   name      String
-  SKU       SKU[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  Product   Product[]
 
-  @@index([id])
+  @@index([id, userId])
   @@map("brand")
 }
 
@@ -127,13 +128,15 @@ model Pricing {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
 
-  @@index([id])
+  @@index([id, sku_id])
   @@map("pricing")
 }
 
 model Product {
   id          String           @id @default(uuid())
   name        String
+  brand_id    String
+  brand       Brand            @relation(fields: [brand_id], references: [id])
   description String           @db.Text
   user        User             @relation(fields: [userId], references: [id])
   userId      String
@@ -143,7 +146,7 @@ model Product {
   updatedAt   DateTime         @default(now())
   SKU         SKU[]
 
-  @@index([id])
+  @@index([id, userId, category_id, brand_id])
   @@map("product")
 }
 
@@ -157,7 +160,7 @@ model Installments {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @default(now())
 
-  @@index([id])
+  @@index([id, resale_itens_id])
 }
 
 model ResaleItens {
@@ -170,7 +173,7 @@ model ResaleItens {
   updatedAt DateTime @default(now())
 
   @@id([sku_id, resale_id])
-  @@index([sku_id])
+  @@index([sku_id, resale_id])
   @@map("resale_itens")
 }
 
@@ -187,7 +190,7 @@ model Resale {
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @default(now())
 
-  @@index([id])
+  @@index([id, userId])
   @@map("resale")
 }
 

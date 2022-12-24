@@ -1,4 +1,4 @@
-import { Brand, BrandProps } from "@application/sku-brand/entities/brand";
+import { Brand, BrandProps } from "@application/product-brand/entities/brand";
 import { randomUUID } from "crypto";
 
 type Override = Partial<BrandProps>

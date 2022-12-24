@@ -13,7 +13,7 @@ export class Brand {
     private props: BrandProps
 
     constructor(props: Replace<BrandProps,
-        { cell_phone?: string, createdAt?: Date, updatedAt?: Date }>, id?: string) {
+        { createdAt?: Date, updatedAt?: Date }>, id?: string) {
         this._id = id ?? randomUUID()
         this.props = {
             ...props,

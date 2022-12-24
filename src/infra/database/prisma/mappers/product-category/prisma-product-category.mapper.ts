@@ -7,6 +7,7 @@ export class PrismaProductCategoryMapper {
         return {
             id: productCategory.id,
             name: productCategory.name,
+            userId: productCategory.userId,
             createdAt: productCategory.createdAt,
             updatedAt: productCategory.updatedAt
         }
@@ -14,6 +15,7 @@ export class PrismaProductCategoryMapper {
 
     static toDomain(rawProductCategory: RawProductCategory) {
         return new ProductCategory({
+            userId: rawProductCategory.userId,
             name: rawProductCategory.name,
             createdAt: rawProductCategory.createdAt,
             updatedAt: rawProductCategory.createdAt

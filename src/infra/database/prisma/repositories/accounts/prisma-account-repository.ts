@@ -28,6 +28,10 @@ export class PrismaAccountRepository implements AccountRepository {
             }
         })
 
+        if (!refreshToken) {
+            return null
+        }
+
         return refreshToken.token
     }
 

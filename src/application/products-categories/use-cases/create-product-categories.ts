@@ -3,6 +3,7 @@ import { ProductCategory } from "../entities/product-category";
 import { ProductCategoryRepository } from "../repositories/product-category-repository";
 
 interface CreatProductCategoriesRequest {
+    userId: string;
     names: string[];
 }
 
@@ -18,11 +19,12 @@ export class CreatProductCategories {
     ) { }
 
     async execute(request: CreatProductCategoriesRequest): Promise<CreatProductCategoriesResponse> {
-        
-        const { names } = request
+
+        const { names, userId } = request
 
         const categories = names.map(name => {
             return new ProductCategory({
+                userId,
                 name
             })
         })

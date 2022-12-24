@@ -22,4 +22,9 @@ export class UpdateProductBody {
     @IsString()
     @IsUUID()
     categoryId: string
+
+    @IsNotEmpty()
+    @IsString()
+    @IsUUID()
+    brandId: string
 }

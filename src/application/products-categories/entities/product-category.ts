@@ -3,6 +3,7 @@ import { randomUUID } from "crypto";
 
 export interface ProductCategoryProps {
     name: string;
+    userId: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -30,6 +31,14 @@ export class ProductCategory {
 
     public get name(): string {
         return this.props.name
+    }
+
+    public set userId(userId: string) {
+        this.props.userId = userId
+    }
+
+    public get userId(): string {
+        return this.props.userId
     }
 
     public get createdAt(): Date {

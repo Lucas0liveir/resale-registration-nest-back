@@ -33,10 +33,11 @@ export class PrismaProductRepository implements ProductRepository {
                 userId
             },
             include: {
-                category: true
+                category: true,
+                brand: true
             }
         })
-        
+
         return products.map(PrismaProductMapper.toDomain)
     }
 
@@ -47,7 +48,8 @@ export class PrismaProductRepository implements ProductRepository {
                 id
             },
             include: {
-                category: true
+                category: true,
+                brand: true
             }
         })
 

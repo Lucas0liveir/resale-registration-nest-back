@@ -4,7 +4,6 @@ import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/
 import { PrismaProductMapper } from "../../mappers/product/prisma-product-mapper";
 import { PrismaService } from "../../prisma.service";
 
-
 @Injectable()
 export class PrismaProductRepository implements ProductRepository {
 
@@ -32,9 +31,12 @@ export class PrismaProductRepository implements ProductRepository {
         const products = await this.prisma.product.findMany({
             where: {
                 userId
+            },
+            include: {
+                category: true
             }
         })
-
+        
         return products.map(PrismaProductMapper.toDomain)
     }
 
@@ -43,6 +45,9 @@ export class PrismaProductRepository implements ProductRepository {
         const product = await this.prisma.product.findUnique({
             where: {
                 id
+            },
+            include: {
+                category: true
             }
         })
 

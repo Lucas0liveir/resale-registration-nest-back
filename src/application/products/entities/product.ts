@@ -1,3 +1,4 @@
+import { ProductCategory } from "@application/products-categories/entities/product-category";
 import { Replace } from "@helpers/Replace";
 import { randomUUID } from "crypto";
 
@@ -5,6 +6,7 @@ export interface ProductProps {
     name: string;
     description: string;
     userId: string;
+    category?: ProductCategory;
     categoryId: string;
     createdAt: Date;
     updatedAt: Date;
@@ -57,6 +59,10 @@ export class Product {
 
     public get categoryId() {
         return this.props.categoryId;
+    }
+
+    public get category(): ProductCategory {
+        return this.props.category;
     }
 
     public get createdAt(): Date {

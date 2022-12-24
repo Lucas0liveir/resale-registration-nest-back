@@ -14,6 +14,10 @@ export class InMemoryProductCategoriesRepository extends ProductCategoryReposito
         return await this.categories
     }
 
+    async findById(id: string): Promise<ProductCategory> {
+        return await this.categories.find(item => item.id === id)
+    }
+
     async save(productCategory: ProductCategory): Promise<void> {
 
         const productCategoryIndex = this.categories.findIndex(item => item.id === productCategory.id)

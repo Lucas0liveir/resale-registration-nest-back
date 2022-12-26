@@ -2,7 +2,7 @@ import { Brand } from "@application/product-brand/entities/brand";
 import { BrandRepository } from "@application/product-brand/repositories/brand-repository";
 import { ProductCategory } from "@application/products-categories/entities/product-category";
 import { ProductCategoryRepository } from "@application/products-categories/repositories/product-category-repository";
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { Product } from "../entities/product";
 import { ProductRepository } from "../repositories/product-repository";
 
@@ -34,7 +34,13 @@ export class EditProduct {
         const category = await this.productCategoryRepository.findById(categoryId)
         const brand = await this.brandRepository.findById(brandId, userId)
 
-        const product = new Product({
+        const product = await this.productRepository.findById(id, userId)
+
+        if (!product) {
+            throw new BadRequestException()
+        }
+
+        const editedProduct = new Product({
             name,
             brand: new Brand({
                 name: brand.name,
@@ -50,11 +56,12 @@ export class EditProduct {
             }, category.id),
             description,
             categoryId,
+            createdAt: product.createdAt,
             userId
         }, id)
 
-        await this.productRepository.save(product)
+        await this.productRepository.save(editedProduct)
 
-        return { product }
+        return { product: editedProduct }
     }
 }

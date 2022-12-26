@@ -31,7 +31,7 @@ export class UpdateSku {
     ) { }
 
     async execute(request: UpdateSkuRequest): Promise<UpdateSkuResponse> {
-        const {id, userId, ean, especification, minStock, name, productId, stock, height, weight, width } = request
+        const { id, userId, ean, especification, minStock, name, productId, stock, height, weight, width } = request
 
         const product = await this.productRepository.findById(productId, userId)
 
@@ -39,7 +39,13 @@ export class UpdateSku {
             throw new BadRequestException("Acesso negado.")
         }
 
-        const sku = new Sku({
+        const sku = await this.skuRepository.findById(id)
+
+        if (!sku) {
+            throw new BadRequestException("Sku não existe")
+        }
+
+        const editedSku = new Sku({
             ean,
             especification,
             minStock,
@@ -48,11 +54,12 @@ export class UpdateSku {
             stock,
             height,
             weight,
-            width
+            width,
+            createdAt: sku.createdAt
         }, id)
 
-        await this.skuRepository.save(sku)
+        await this.skuRepository.save(editedSku)
 
-        return { sku }
+        return { sku: editedSku }
     }
 }

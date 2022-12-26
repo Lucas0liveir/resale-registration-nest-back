@@ -4,7 +4,7 @@ import { randomUUID } from "crypto";
 
 export interface SkuProps {
     name: string;
-    ean: string;
+    ean?: string | null;
     especification: string;
     weight?: number | null;
     height?: number | null;

@@ -18,9 +18,13 @@ import { EditProduct } from "@application/products/use-cases/edit-product";
 import { GetUserProducts } from "@application/products/use-cases/get-user-products";
 import { GetProductCategory } from "@application/products-categories/use-cases/get-product-category";
 import { ProductController } from "./controllers/product.controller";
-import { GetBrandsOfResellers } from "@application/product-brand/use-cases/get-customers-of-resellers";
 import { CreateBrand } from "@application/product-brand/use-cases/create-brand";
 import { BrandController } from "./controllers/brand.controller";
+import { SkuController } from "./controllers/sku.controller";
+import { GetBrandsOfResellers } from "@application/product-brand/use-cases/get-brands-of-resellers";
+import { CreateSku } from "@application/sku/use-cases/create-sku";
+import { GetProductSkus } from "@application/sku/use-cases/get-product-skus";
+import { UpdateSku } from "@application/sku/use-cases/update-sku";
 
 @Module({
     imports: [DataBaseModule, AuthModule, CacheModule.register({
@@ -32,6 +36,7 @@ import { BrandController } from "./controllers/brand.controller";
         CustomerController,
         ProductCategoryController,
         ProductController,
+        SkuController,
         BrandController
     ],
     providers: [
@@ -48,7 +53,10 @@ import { BrandController } from "./controllers/brand.controller";
         EditProduct,
         GetUserProducts,
         GetBrandsOfResellers,
-        CreateBrand
+        CreateBrand,
+        CreateSku,
+        GetProductSkus,
+        UpdateSku
     ]
 })
 

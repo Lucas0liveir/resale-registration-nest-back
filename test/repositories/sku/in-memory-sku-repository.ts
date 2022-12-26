@@ -10,6 +10,10 @@ export class InMemorySkuRepository extends SkuRepository {
         this.skus.push(sku)
     }
 
+    async findById(id: string): Promise<Sku> {
+        return this.skus.find(item => item.id === id)
+    }
+
     async findAllByProductId(productId: string): Promise<Sku[]> {
         return this.skus.filter(item => item.product.id === productId)
     }

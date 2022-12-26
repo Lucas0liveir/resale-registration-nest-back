@@ -1,9 +1,6 @@
-import { Product } from "@application/products/entities/product";
-import { ProductRepository } from "@application/products/repositories/product-repository";
 import { Sku } from "@application/sku/entities/sku";
 import { SkuRepository } from "@application/sku/repositories/sku-repository";
 import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
-import { PrismaProductMapper } from "../../mappers/product/prisma-product-mapper";
 import { PrismaSkuMapper } from "../../mappers/sku/prisma-sku-mapper";
 import { PrismaService } from "../../prisma.service";
 
@@ -27,6 +24,37 @@ export class PrismaSkuRepository implements SkuRepository {
         } catch (e) {
             throw new BadRequestException(e.code)
         }
+    }
+
+    async findById(id: string): Promise<Sku> {
+        const sku = await this.prisma.sKU.findUnique({
+            where: {
+                id
+            },
+            include: {
+                product: {
+                    select: {
+                        id: true,
+                        brand_id: true,
+                        description: true,
+                        name: true,
+                        userId: true,
+                        createdAt: true,
+                        category_id: true,
+                        updatedAt: true,
+                        brand: true,
+                        category: true,
+                    }
+                }
+            }
+        })
+
+        if (!sku) {
+            return null
+        }
+
+        return PrismaSkuMapper.toDomain(sku)
+
     }
 
     async findAllByProductId(productId: string): Promise<Sku[]> {

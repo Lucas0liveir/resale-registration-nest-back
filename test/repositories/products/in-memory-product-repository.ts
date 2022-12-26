@@ -15,8 +15,14 @@ export class InMemoryProductRepository extends ProductRepository {
         return await this.products.filter(item => item.userId === userId)
     }
 
-    async findById(id: string): Promise<Product> {
-        return await this.products.find(item => item.id === id)
+    async findById(id: string, userId: string): Promise<Product> {
+        const product = await this.products.find(item => item.id === id)
+
+        if (product.userId !== userId) {
+            return null
+        }
+
+        return product
     }
 
     async save(product: Product): Promise<void> {

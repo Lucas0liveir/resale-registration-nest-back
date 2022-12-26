@@ -1,6 +1,6 @@
 import { makeBrand } from "@test/factories/brand/brand-factory";
 import { InMemoryBrandRepository } from "@test/repositories/brand/in-memory-brand-repository";
-import { GetBrandsOfResellers } from "./get-customers-of-resellers";
+import { GetBrandsOfResellers } from "./get-brands-of-resellers";
 
 describe("Get Brands", () => {
     it("should be able to get brands", async () => {

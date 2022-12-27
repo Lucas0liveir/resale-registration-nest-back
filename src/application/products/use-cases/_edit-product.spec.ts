@@ -20,11 +20,11 @@ describe("Edit product", () => {
         await productCategoryRepository.createMany([category])
         await brandRepository.create(brand)
 
-        const product = makeProduct({ name: "produto A", brand, category, categoryId: category.id })
+        const product = makeProduct({ userId: "user-1", name: "produto A", brand, category, categoryId: category.id })
 
         await productRepository.create(product)
 
-        const editedProduct = makeProduct({ name: "produto B", brand, category, categoryId: category.id }, product.id)
+        const editedProduct = makeProduct({ userId: "user-1", name: "produto B", brand, category, categoryId: category.id }, product.id)
 
         await editProduct.execute({
             id: editedProduct.id,

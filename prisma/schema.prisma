@@ -154,8 +154,8 @@ model Installments {
   id            String   @id @default(uuid())
   resale        Resale   @relation(fields: [resale_id], references: [id])
   resale_id     String
-  payment_date  String
-  payment_value Decimal
+  payment_date  DateTime
+  payment_value Decimal  @db.Decimal(18, 2)
   is_paid       Boolean  @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
@@ -184,7 +184,7 @@ model Resale {
   user         User           @relation(fields: [userId], references: [id])
   userId       String
   installments Installments[]
-  totalValue   Decimal
+  totalValue   Decimal        @db.Decimal(18, 2)
   products     ResaleItens[]
   canceled_at  DateTime?
   createdAt    DateTime       @default(now())

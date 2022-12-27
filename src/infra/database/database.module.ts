@@ -3,6 +3,7 @@ import { CustomersRepository } from "@application/customers/repositories/custome
 import { BrandRepository } from "@application/product-brand/repositories/brand-repository";
 import { ProductCategoryRepository } from "@application/products-categories/repositories/product-category-repository";
 import { ProductRepository } from "@application/products/repositories/product-repository";
+import { PricingRepository } from "@application/sku-pricing/repositories/pricing-repository";
 import { SkuRepository } from "@application/sku/repositories/sku-repository";
 import { Module } from "@nestjs/common";
 import { PrismaService } from "./prisma/prisma.service";
@@ -11,6 +12,7 @@ import { PrismaBrandRepository } from "./prisma/repositories/brand/prisma-brand-
 import { PrismaCustomersRepository } from "./prisma/repositories/customers/prisma-customers-repository";
 import { PrismaProductCategoryRepository } from "./prisma/repositories/product-category/prisma-product-category-repository";
 import { PrismaProductRepository } from "./prisma/repositories/product/prisma-product-repository";
+import { PrismaPricingRepository } from "./prisma/repositories/sku-pricing/prisma-sku-pricing.repository";
 import { PrismaSkuRepository } from "./prisma/repositories/sku/prisma-sku-repository";
 
 @Module({
@@ -39,6 +41,10 @@ import { PrismaSkuRepository } from "./prisma/repositories/sku/prisma-sku-reposi
         {
             provide: SkuRepository,
             useClass: PrismaSkuRepository
+        },
+        {
+            provide: PricingRepository,
+            useClass: PrismaPricingRepository
         }
     ],
     exports: [
@@ -47,7 +53,8 @@ import { PrismaSkuRepository } from "./prisma/repositories/sku/prisma-sku-reposi
         ProductCategoryRepository,
         ProductRepository,
         BrandRepository,
-        SkuRepository
+        SkuRepository,
+        PricingRepository
     ]
 })
 export class DataBaseModule { }

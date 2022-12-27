@@ -122,8 +122,8 @@ model Brand {
 model Pricing {
   id         String   @id @default(uuid())
   sku_id     String   @unique
-  cost_price Decimal
-  price      Decimal
+  cost_price Decimal  @db.Decimal(18, 2)
+  price      Decimal  @db.Decimal(18, 2)
   sku        SKU      @relation(fields: [sku_id], references: [id])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
@@ -151,16 +151,16 @@ model Product {
 }
 
 model Installments {
-  id              String   @id @default(uuid())
-  resale_itens    Resale   @relation(fields: [resale_itens_id], references: [id])
-  resale_itens_id String
-  payment_date    String
-  payment_value   Decimal
-  is_paid         Boolean  @default(false)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @default(now())
+  id            String   @id @default(uuid())
+  resale        Resale   @relation(fields: [resale_id], references: [id])
+  resale_id     String
+  payment_date  String
+  payment_value Decimal
+  is_paid       Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
 
-  @@index([id, resale_itens_id])
+  @@index([id, resale_id])
 }
 
 model ResaleItens {

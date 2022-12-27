@@ -1,12 +1,13 @@
 import { CreateSku } from "@application/sku/use-cases/create-sku";
 import { GetProductSkus } from "@application/sku/use-cases/get-product-skus";
 import { UpdateSku } from "@application/sku/use-cases/update-sku";
-import { Body, Controller, Get, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
+import { Body, CacheInterceptor, Controller, Get, Param, Post, Put, Req, UseGuards, UseInterceptors } from "@nestjs/common";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { CreateSkuBody } from "../dtos/sku/create-sku-body";
 import { SkuViewModel } from "../view-models/sku/sku-view-model";
 
 @Controller("reseller")
+@UseInterceptors(CacheInterceptor)
 export class SkuController {
     constructor(
         private createSku: CreateSku,

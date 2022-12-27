@@ -25,6 +25,10 @@ import { GetBrandsOfResellers } from "@application/product-brand/use-cases/get-b
 import { CreateSku } from "@application/sku/use-cases/create-sku";
 import { GetProductSkus } from "@application/sku/use-cases/get-product-skus";
 import { UpdateSku } from "@application/sku/use-cases/update-sku";
+import { CreatePricing } from "@application/sku-pricing/use-cases/create-pricing";
+import { GetSkuPricing } from "@application/sku-pricing/use-cases/get-sku-pricing";
+import { UpdatePricing } from "@application/sku-pricing/use-cases/update-pricing";
+import { PricingController } from "./controllers/sku-pricing.controller";
 
 @Module({
     imports: [DataBaseModule, AuthModule, CacheModule.register({
@@ -37,7 +41,8 @@ import { UpdateSku } from "@application/sku/use-cases/update-sku";
         ProductCategoryController,
         ProductController,
         SkuController,
-        BrandController
+        BrandController,
+        PricingController
     ],
     providers: [
         CreateResellerAccount,
@@ -56,7 +61,10 @@ import { UpdateSku } from "@application/sku/use-cases/update-sku";
         CreateBrand,
         CreateSku,
         GetProductSkus,
-        UpdateSku
+        UpdateSku,
+        CreatePricing,
+        GetSkuPricing,
+        UpdatePricing
     ]
 })
 

@@ -1,6 +1,6 @@
 import { Pricing } from "@application/sku-pricing/entities/pricing";
 import { PricingRepository } from "@application/sku-pricing/repositories/pricing-repository";
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaSkuPricingMapper } from "../../mappers/sku-pricing/prisma-sku-pricing-mapper";
 import { PrismaService } from "../../prisma.service";
 
@@ -14,11 +14,16 @@ export class PrismaPricingRepository implements PricingRepository {
 
     async create(pricing: Pricing): Promise<void> {
 
-        const raw = PrismaSkuPricingMapper.toPrisma(pricing)
+        try {
+            const raw = PrismaSkuPricingMapper.toPrisma(pricing)
 
-        await this.prisma.pricing.create({
-            data: raw
-        })
+            await this.prisma.pricing.create({
+                data: raw
+            })
+            
+        } catch (e) {
+            throw new BadRequestException("Seu sku já possui um preço vinculado.")
+        }
     }
 
     async findById(id: string): Promise<Pricing> {

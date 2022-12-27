@@ -1,3 +1,4 @@
+import { Installment } from "@application/resale-installments/entities/installment";
 import { Resale } from "@application/resale/entities/resale";
 import { ResaleRepository } from "@application/resale/repositories/resale-repository";
 import { BadRequestException } from "@nestjs/common";
@@ -6,7 +7,8 @@ export class InMemoryResaleRepository extends ResaleRepository {
 
     public resales: Resale[] = []
 
-    async create(resale: Resale): Promise<void> {
+    async create(resale: Resale, installments: Installment[]): Promise<void> {
+        resale.installment = installments
         this.resales.push(resale)
     }
 

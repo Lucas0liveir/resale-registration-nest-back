@@ -3,6 +3,7 @@ import { randomUUID } from "crypto";
 
 export interface InstallmentProps {
     resaleId: string;
+    userId: string;
     paymentDate: Date;
     paymentValue: number;
     isPaid?: boolean;
@@ -31,9 +32,14 @@ export class Installment {
         this.props.isPaid = true;
     }
 
-    public get isPaid (): boolean {
+    public get isPaid(): boolean {
         return this.props.isPaid
     }
+
+    public get userId(): string {
+        return this.props.userId
+    }
+
 
     public set paymentDate(paymentDate: Date) {
         this.props.paymentDate = paymentDate
@@ -49,5 +55,13 @@ export class Installment {
 
     public get paymentValue(): number {
         return this.props.paymentValue
+    }
+
+    public get createdAt(): Date {
+        return this.props.createdAt;
+    }
+
+    public get updatedAt(): Date {
+        return this.props.updatedAt;
     }
 }

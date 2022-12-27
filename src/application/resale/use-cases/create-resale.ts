@@ -1,6 +1,7 @@
 import { CustomersRepository } from "@application/customers/repositories/customer-repository";
+import { CreateInstallments } from "@application/resale-installments/use-cases/create-installments";
 import { PricingRepository } from "@application/sku-pricing/repositories/pricing-repository";
-import { BadRequestException, Injectable, Res } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { Resale } from "../entities/resale";
 import { ResaleRepository } from "../repositories/resale-repository";
 
@@ -9,6 +10,7 @@ interface CreateResaleRequest {
         skuId: string;
         quantity: number;
     }[];
+    paymentDates: string[];
     userId: string;
     customerId: string;
 }
@@ -27,7 +29,7 @@ export class CreateResale {
     ) { }
 
     async execute(request: CreateResaleRequest): Promise<CreateResaleResponse> {
-        const { customerId, resaleForm, userId } = request
+        const { customerId, resaleForm, userId, paymentDates } = request
 
         const customer = await this.customerRepository.findById(customerId)
 
@@ -52,7 +54,18 @@ export class CreateResale {
             userId
         })
 
-        await this.resaleRepository.create(resale)
+        const createInstallments = new CreateInstallments()
+
+        const { installments } = await createInstallments.execute({
+            paymentDates,
+            resaleId: resale.id,
+            totalValue,
+            userId
+        })
+
+        await this.resaleRepository.create(resale, installments)
+
+        resale.installment = installments
 
         return { resale }
     }

@@ -1,4 +1,5 @@
 import { Customer } from "@application/customers/entities/customer";
+import { Installment } from "@application/resale-installments/entities/installment";
 import { Replace } from "@helpers/Replace";
 import { randomUUID } from "crypto";
 
@@ -6,6 +7,7 @@ export interface ResaleProps {
     customer: Customer;
     userId: string;
     totalValue: number;
+    installments?: Installment[];
     canceledAt?: Date | null;
     createdAt: Date;
     updatedAt: Date;
@@ -26,6 +28,10 @@ export class Resale {
 
     public get id(): string {
         return this._id;
+    }
+
+    public set installment(installments: Installment[]) {
+        this.props.installments = installments
     }
 
     public calcel() {

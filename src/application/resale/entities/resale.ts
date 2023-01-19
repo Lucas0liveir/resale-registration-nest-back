@@ -1,7 +1,6 @@
 import { Customer } from "@application/customers/entities/customer";
 import { Installment } from "@application/resale-installments/entities/installment";
 import { ResaleSku } from "@application/resale-sku/entities/resale-sku";
-import { Sku } from "@application/sku/entities/sku";
 import { Replace } from "@helpers/Replace";
 import { randomUUID } from "crypto";
 

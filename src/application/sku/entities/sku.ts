@@ -9,7 +9,7 @@ export interface SkuProps {
     weight?: number | null;
     height?: number | null;
     width?: number | null;
-    product: Product;
+    product?: Product;
     stock: number;
     minStock: number;
     createdAt: Date;

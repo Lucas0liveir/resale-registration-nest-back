@@ -11,20 +11,14 @@ export interface ResaleSkuProps {
 }
 
 export class ResaleSku {
-    private _id: string;
     private props: ResaleSkuProps;
 
-    constructor(props: Replace<ResaleSkuProps, { createdAt?: Date, updatedAt?: Date }>, id?: string) {
-        this._id = id ?? randomUUID()
+    constructor(props: Replace<ResaleSkuProps, { createdAt?: Date, updatedAt?: Date }>) {
         this.props = {
             ...props,
             createdAt: props.createdAt ?? new Date(),
             updatedAt: props.updatedAt ?? new Date()
         }
-    }
-
-    public get id() {
-        return this._id;
     }
 
     public set sku(sku: Sku) {

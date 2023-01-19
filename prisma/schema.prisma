@@ -89,7 +89,7 @@ model Product_Category {
 model SKU {
   id             String        @id @default(uuid())
   name           String
-  ean            String
+  ean            String?
   especification String
   weight         Int?
   height         Int?

@@ -39,6 +39,10 @@ export class PrismaCustomersRepository implements CustomersRepository {
             }
         })
 
+        if (!customer) {
+            return null
+        }
+
         return PrismaCustomersMapper.toDomain(customer)
     }
 

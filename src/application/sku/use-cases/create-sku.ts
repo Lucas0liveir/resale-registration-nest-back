@@ -6,7 +6,7 @@ import { SkuRepository } from "../repositories/sku-repository";
 
 interface CreateSkuRequest {
     name: string;
-    ean: string;
+    ean?: string;
     especification: string;
     weight?: number | null;
     height?: number | null;

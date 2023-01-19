@@ -1,5 +1,7 @@
 import { Customer } from "@application/customers/entities/customer";
 import { Installment } from "@application/resale-installments/entities/installment";
+import { ResaleSku } from "@application/resale-sku/entities/resale-sku";
+import { Sku } from "@application/sku/entities/sku";
 import { Replace } from "@helpers/Replace";
 import { randomUUID } from "crypto";
 
@@ -8,6 +10,7 @@ export interface ResaleProps {
     userId: string;
     totalValue: number;
     installments?: Installment[];
+    resaleSkus?: ResaleSku[];
     canceledAt?: Date | null;
     createdAt: Date;
     updatedAt: Date;
@@ -30,8 +33,20 @@ export class Resale {
         return this._id;
     }
 
-    public set installment(installments: Installment[]) {
+    public set installments(installments: Installment[]) {
         this.props.installments = installments
+    }
+
+    public get installments(): Installment[] {
+        return this.props.installments
+    }
+
+    public set resaleSkus(resaleSkus: ResaleSku[]) {
+        this.props.resaleSkus = resaleSkus
+    }
+
+    public get resaleSkus(): ResaleSku[] {
+        return this.props.resaleSkus
     }
 
     public calcel() {
